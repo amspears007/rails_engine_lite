@@ -47,7 +47,9 @@ end
 
   it "return items associated with a specific merchant" do
     merchant1 = Merchant.create(name: "Amy")
-    item1 = merchant1.items.create!(name: "Rubber Chicken", description: "Its funny anf bouncy", unit_price: 10.0)
+    item1 = merchant1.items.create!(name: "Rubber Chicken", description: "Its funny and bouncy", unit_price: 10.0)
+    item2 = merchant1.items.create!(name: "Actual Chicken", description: "It clucks", unit_price: 25.0)
+
     # require 'pry'; binding.pry
     get "/api/v1/merchants/#{merchant1.id}/items"
 
