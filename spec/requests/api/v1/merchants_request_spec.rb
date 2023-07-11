@@ -9,5 +9,6 @@ describe "All Merchants API Request" do
     expect(response).to be_successful
 
     merchants = JSON.parse(response.body, symbolize_names: true)
+
   end
 end
