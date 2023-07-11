@@ -50,10 +50,16 @@ end
     item1 = merchant1.items.create!(name: "Rubber Chicken", description: "Its funny and bouncy", unit_price: 10.0)
     item2 = merchant1.items.create!(name: "Actual Chicken", description: "It clucks", unit_price: 25.0)
 
-    # require 'pry'; binding.pry
     get "/api/v1/merchants/#{merchant1.id}/items"
 
-    expect(response).to be_successful
+    items = JSON.parse(response.body, symbolize_names: true)
     
+    expect(response).to be_successful
+    expect(response.status).to eq(200)
+    expect(items[:data][1]).to have_key(:type)
+    expect(items[:data]).to be_an(Array)
+    expect(items[:data][1]).to be_a(Hash)
+    expect(items[:data].count).to eq(2)
+    expect(items[:data][0][:attributes][:name]).to eq("Rubber Chicken")
   end
 end
