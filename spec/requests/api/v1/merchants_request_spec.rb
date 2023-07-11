@@ -8,7 +8,6 @@ RSpec.describe "Merchants API" do
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
-    
 
       merchants = JSON.parse(response.body, symbolize_names: true)
 
@@ -16,7 +15,6 @@ RSpec.describe "Merchants API" do
       expect(merchants[:data][1][:type]).to eq("merchant")
       expect(merchants[:data][1].count).to eq(3)
       expect(merchants[:data][1][:attributes]).to have_key(:name)
-      # expect(merchants[:data][0][:id]).to be_an(Integer)
 
     merchants[:data].each do |merchant|
       expect(merchant). to have_key(:id)
