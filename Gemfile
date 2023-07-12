@@ -48,9 +48,12 @@ group :development, :test do
   gem 'simplecov'
   gem "factory_bot_rails"
   gem "faker"
+  gem 'launchy'
+  gem 'shoulda-matchers'
 end
 
 group :development do
+  gem 'rubocop-rails', require: false
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
