@@ -8,8 +8,11 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    render json: ItemSerializer.new(Item.create(item_params))
-    # require 'pry'; binding.pry
+    render json: ItemSerializer.new(Item.create!(item_params)), status: 201
+  end
+
+  def update
+    render json: ItemSerializer.new(Item.update(params[:id], item_params))
   end
   
 
@@ -36,3 +39,9 @@ end
   #     render json: { error: item.errors.full_messages }, status: :unprocessable_entity
   #   end
   # end
+
+#def update
+   # item = Item.find(params[:id])
+    # item.update!(item_params)
+    # render json: ItemSerializer.new(item)
+    # require 'pry'; binding.pry
