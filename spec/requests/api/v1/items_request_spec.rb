@@ -27,6 +27,7 @@ RSpec.describe "Items API" do
   describe "returns one item by id" do
     it "finds item by id '/api/v1/items/:item_id" do
       get "/api/v1/items/#{@item2.id}"
+      require 'pry'; binding.pry
 
     expect(response).to be_successful
 
