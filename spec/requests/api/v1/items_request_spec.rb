@@ -26,11 +26,20 @@ RSpec.describe "Items API" do
   
   describe "returns one item by id" do
     it "finds item by id '/api/v1/items/:item_id" do
+      id = @item2.id
       get "/api/v1/items/#{@item2.id}"
-      require 'pry'; binding.pry
-
+      
+      item = JSON.parse(response.body, symbolize_names: true)
+      
     expect(response).to be_successful
+    expect(response.status).to eq(200)
 
+    expect(item[:data]).to have_key(:id)
+    expect(item[:data]).to have_key(:type)
+    expect(item[:data]).to have_key(:attributes)
+    expect(item[:data][:attributes]).to have_key(:name)
+    expect( item[:data][:type]).to eq("item")
+    expect(item[:data][:attributes][:name]).to be_a(String)
     end
   end
 end
