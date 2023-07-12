@@ -8,7 +8,13 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
+    item = Item.new(item_params)
+    if item.save
     render json: ItemSerializer.new(Item.create!(item_params)), status: 201
+#not sure about this error message
+    else
+      render json: { error: item.errors.full_messages }
+    end
   end
 
   def update
@@ -18,16 +24,16 @@ class Api::V1::ItemsController < ApplicationController
   def destroy
     item = Item.find(params[:id])
     item.destroy
-    # require 'pry'; binding.pry
-  
-
-
   end
   
 
   private
   def item_params
     params.require(:item).permit(:name, :description, :unit_price, :merchant_id)
+  end
+
+  def validates_merchant
+    #some code
   end
 end
 
@@ -53,4 +59,4 @@ end
    # item = Item.find(params[:id])
     # item.update!(item_params)
     # render json: ItemSerializer.new(item)
-    # require 'pry'; binding.pry
+   

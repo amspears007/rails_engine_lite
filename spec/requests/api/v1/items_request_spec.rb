@@ -80,6 +80,8 @@ RSpec.describe "Items API" do
     end
   end
 
+  describe
+
   describe "It can update an item 'patch api/v1/items/:item_id' " do
     it "can update an existing item" do
       id = @item1.id
