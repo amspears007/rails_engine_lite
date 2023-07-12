@@ -57,6 +57,7 @@ RSpec.describe "Items API" do
       created_item = Item.last
 
       expect(response).to be_successful
+      # expect(response.status).to eq(201)
       item = JSON.parse(response.body, symbolize_names: true)
 
       expect(created_item.name).to eq(item_params[:name])
