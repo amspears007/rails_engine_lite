@@ -105,4 +105,15 @@ RSpec.describe "Items API" do
       expect(item.description).to eq("Its funny and rubbery")
     end
   end
+
+  describe "Item Merchant API " do
+    it "'/api/v1/items/:item_id/merchant'" do
+      get "/api/v1/items/#{@item1.id}/merchant"
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      item = JSON.parse(response.body, symbolize_names: true)
+
+    end
+  end
 end
