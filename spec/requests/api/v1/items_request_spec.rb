@@ -68,6 +68,18 @@ RSpec.describe "Items API" do
     end
   end
 
+  describe "Delete item" do
+    it "can destroy an item" do
+    @item3 = @merchant1.items.create!(name: "Fried Chicken", description: "Its delicious", unit_price: 12.0)
+    expect(Item.count).to eq(3)
+    
+    delete "/api/v1/items/#{@item3.id}"
+    expect(response).to be_successful
+    expect(response.status).to eq(204)
+    expect(Item.count).to eq(2)
+    end
+  end
+
   describe "It can update an item 'patch api/v1/items/:item_id' " do
     it "can update an existing item" do
       id = @item1.id
@@ -81,7 +93,7 @@ RSpec.describe "Items API" do
                     }
       headers = {"CONTENT_TYPE" => "application/json"}
       patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: item_params})
-      
+
       item = Item.find_by(id: id)
     
       expect(response).to be_successful
