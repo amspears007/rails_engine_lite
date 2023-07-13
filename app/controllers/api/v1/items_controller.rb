@@ -4,10 +4,12 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def show
-    item = Item.find(params[:id])
-    if item
+    begin 
+      item = Item.find(params[:id])
       render json: ItemSerializer.new(item)
-    else render json: { error: "Item not found" }, status: 404
+    rescue 
+      render json: { error: "Item not found" }, status: 404
+      # require 'pry'; binding.pry
     end
   end
 
