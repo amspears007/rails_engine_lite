@@ -43,6 +43,21 @@ RSpec.describe "Items API" do
     end
   end
 
+  describe 'sad paths for finding an item' do
+    xit "will gracefully handle if a book id doesn't exist" do
+      get "/api/v1/items/#{6}"
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      data = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:title]).to eq("Couldn't find Book with 'id'=1")
+    end
+  end
+
   describe "It creates an item" do
     it "'post api/v1/items" do 
       item_params = {
@@ -68,6 +83,27 @@ RSpec.describe "Items API" do
     end
   end
 
+  describe "Sad path for creating an item" do
+    it "'post api/v1/items" do 
+      item_params = {
+        name: "",
+        description: "Orange and Pointy",
+        unit_price: 15.2,
+        merchant_id: @merchant1.id
+        
+        }
+       
+        post "/api/v1/items", params: {item: item_params}
+    #  require 'pry'; binding.pry
+      created_item = Item.last
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      item = JSON.parse(response.body, symbolize_names: true)
+      expect(item[:name][0]).to eq("can't be blank")
+      end
+    end
+
   describe "Delete item" do
     it "can destroy an item" do
     @item3 = @merchant1.items.create!(name: "Fried Chicken", description: "Its delicious", unit_price: 12.0)
@@ -79,8 +115,6 @@ RSpec.describe "Items API" do
     expect(Item.count).to eq(2)
     end
   end
-
-  describe
 
   describe "It can update an item 'patch api/v1/items/:item_id' " do
     it "can update an existing item" do
@@ -103,6 +137,24 @@ RSpec.describe "Items API" do
 
       expect(item.description).to_not eq(previous_description)
       expect(item.description).to eq("Its funny and rubbery")
+    end
+  end
+
+  describe "Sad path to update an item" do
+    it "won't update if params aren't filled out" do
+      id = @item1.id
+
+      item_params = { name: "Rubber Chicken", 
+                      description: "",
+                      unit_price: 10.0,
+                      merchant_id: @merchant1.id
+                     
+                    }
+      headers = {"CONTENT_TYPE" => "application/json"}
+      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: item_params})
+
+      expect(response).to_not be_successful
+
     end
   end
 
