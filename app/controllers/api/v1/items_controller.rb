@@ -4,21 +4,32 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def show
-    render json: ItemSerializer.new(Item.find(params[:id]))
+    item = Item.find(params[:id])
+    if item
+      render json: ItemSerializer.new(item)
+    else render json: { error: "Item not found" }, status: 404
+    end
   end
 
   def create
     item = Item.new(item_params)
     if item.save
-    render json: ItemSerializer.new(Item.create!(item_params)), status: 201
-#not sure about this error message
+      render json: ItemSerializer.new(item), status: 201
+      #not sure about this error message
     else
-      render json: { error: item.errors.full_messages }
+      render json: item.errors, status: 404
     end
   end
 
   def update
-    render json: ItemSerializer.new(Item.update(params[:id], item_params))
+    item = Item.find(params[:id])
+    item.update(item_params)
+    if item.save
+      render json: ItemSerializer.new(item), status: 201
+    else
+      render json: item.errors, status: 404
+    end
+    # render json: ItemSerializer.new(Item.update(params[:id], item_params))
   end
 
   def destroy
@@ -33,6 +44,8 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def validates_merchant
+    # if item_params(merchant_id) != nil
+    # require 'pry'; binding.pry
     #some code
   end
 end
