@@ -60,4 +60,15 @@ end
     expect(items[:data].count).to eq(2)
     expect(items[:data][0][:attributes][:name]).to eq("Rubber Chicken")
   end
+
+  describe "Sad path returns an empty array" do
+    it "GET /api/vi/merchants/find_all" do
+      get "/api/v1/merchants/find_all?name=sunny"
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      search_result = JSON.parse(response.body, symbolize_names: true)
+      expect(search_result[:data]).to eq([])
+    end
+  end
 end
