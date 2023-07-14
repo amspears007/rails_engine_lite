@@ -48,7 +48,18 @@ RSpec.describe "Items Search API" do
       expect(response.status).to eq(404)
 
       search_result = JSON.parse(response.body, symbolize_names: true)
-      # expect(search_result[:data]).to eq([])
+      expect(search_result).to be_a(Hash)
+      expect(search_result).to have_key(:error)
+      expect(search_result).to have_value("No content")
+    end
+  end
+
+  describe "Find single item by minimum price" do
+    it "GET /api/v1/items/find?min_price=4.99" do
+      get "/api/v1/items/find?min_price=4.99"
+
+      expect(response).to be_successful
+      expect(response.body).to eq(200)
     end
   end
 end
