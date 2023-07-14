@@ -11,4 +11,9 @@ class Item < ApplicationRecord
   def self.find_item_by_name_search(name)
     where("name ILIKE ?", "%#{name}%").order(:name).first
   end
+
+  def self.find_item_by_min_price(min_price)
+    # require 'pry'; binding.pry
+    where("unit_price < #{min_price}").order(:unit_price).first
+  end
 end

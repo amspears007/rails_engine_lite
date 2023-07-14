@@ -38,4 +38,11 @@ RSpec.describe Item, type: :model do
       expect(Item.find_item_by_name_search("fun")).to eq(nil)
     end
   end
+
+  describe "It finds an item by the lowest/minimum price" do
+    it "::find_item_by_min_price" do
+
+    expect(Item.find_item_by_min_price(4.99)).to eq(@item5)
+    end
+  end
 end
