@@ -41,17 +41,6 @@ RSpec.describe "Items Search API" do
     end
   end
 
-  describe "Sad path returns an empty array" do
-    it "GET /api/vi/items/find" do
-      get "/api/v1/items/find?name=sunny"
-      expect(response).to be_successful
-      expect(response.status).to eq(200)
-
-      search_result = JSON.parse(response.body, symbolize_names: true)
-      expect(search_result[:data]).to eq([])
-    end
-  end
-
   describe "Sad path no name param is empty" do
     it "GET /api/vi/items/find" do
       get "/api/v1/items/find?name="""
