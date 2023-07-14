@@ -41,4 +41,19 @@ RSpec.describe " Search API" do
       expect(search_result[:data]).to eq([])
     end
   end
+
+  describe "Sad path no name param is empty" do
+    it "GET /api/vi/merchants/find_all" do
+      get "/api/v1/merchants/find_all?name="""
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      search_result = JSON.parse(response.body, symbolize_names: true)
+
+      expect(search_result).to be_a(Hash)
+      expect(search_result).to have_key(:error)
+      expect(search_result).to have_value("No content")
+    end
+  end
+
 end
