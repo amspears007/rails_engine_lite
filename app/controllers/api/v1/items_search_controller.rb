@@ -2,6 +2,7 @@ class Api::V1::ItemsSearchController < ApplicationController
   def search
     if params[:name].empty? || params[:name].nil?
       render json: { error: "No content" }, status: 404
+      # require 'pry'; binding.pry
     elsif Item.find_item_by_name_search(params[:name]) == nil
       render json: { data: [] }
     else 
