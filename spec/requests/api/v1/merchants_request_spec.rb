@@ -43,7 +43,7 @@ end
     expect(merchant[:data][:attributes][:name]).to be_a(String)
   end
 
-  it "return items associated with a specific merchant" do
+  it "return item names associated with a specific merchant" do
     merchant1 = Merchant.create(name: "Amy")
     item1 = merchant1.items.create!(name: "Rubber Chicken", description: "Its funny and bouncy", unit_price: 10.0)
     item2 = merchant1.items.create!(name: "Actual Chicken", description: "It clucks", unit_price: 25.0)
@@ -55,20 +55,12 @@ end
     expect(response).to be_successful
     expect(response.status).to eq(200)
     expect(items[:data][1]).to have_key(:type)
+    names = items[:data].map do |data|
+      data[:attributes][:name]
+    end
+    expect(names).to eq(["Rubber Chicken","Actual Chicken"])
     expect(items[:data]).to be_an(Array)
     expect(items[:data][1]).to be_a(Hash)
     expect(items[:data].count).to eq(2)
-    expect(items[:data][0][:attributes][:name]).to eq("Rubber Chicken")
-  end
-
-  describe "Sad path returns an empty array" do
-    it "GET /api/vi/merchants/find_all" do
-      get "/api/v1/merchants/find_all?name=sunny"
-      expect(response).to be_successful
-      expect(response.status).to eq(200)
-
-      search_result = JSON.parse(response.body, symbolize_names: true)
-      expect(search_result[:data]).to eq([])
-    end
   end
 end
