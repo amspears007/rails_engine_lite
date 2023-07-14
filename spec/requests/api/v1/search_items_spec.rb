@@ -16,11 +16,15 @@ RSpec.describe "Items Search API" do
       item5 = merchant2.items.create!(name: "Markers", description: "many colors", unit_price: 3.12)
       item6 = merchant3.items.create!(name: "Orange Paint", description: "Its color is orange", unit_price: 10.12)
 
-      get "/api/v1/items/find?name=amy"
+      get "/api/v1/items/find?name=mark"
       expect(response).to be_successful
-      search_array = JSON.parse(response.body, symbolize_names: true)
-      
+      expect(response.status).to eq(200)
 
+      search_result = JSON.parse(response.body, symbolize_names: true)
+      expect(search_result[:data][:type]).to be_a(String)
+      expect(search_result[:data][:type]).to eq("item")
+      expect(search_result[:data][:attributes]).to be_a(Hash)
+      expect(search_result[:data][:attributes][:name]).to eq("Markers")
     end
   end
 end
