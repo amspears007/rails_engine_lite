@@ -35,7 +35,7 @@ RSpec.describe Item, type: :model do
       expect(Item.find_item_by_name_search("paint")).to eq(@item6)
       expect(Item.find_item_by_name_search("chicken")).to eq(@item2)
       expect(Item.find_item_by_name_search("mar")).to eq(@item5)
-      expect(Item.find_item_by_name_search("fun")).to eq("No items match that search")
+      expect(Item.find_item_by_name_search("fun")).to eq(nil)
     end
   end
 end

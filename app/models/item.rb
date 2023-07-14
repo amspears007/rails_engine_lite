@@ -9,9 +9,6 @@ class Item < ApplicationRecord
                         :merchant_id
 
   def self.find_item_by_name_search(name)
-    items = where("name ILIKE ?", "%#{name}%").order(:name).first
-    
-    return items unless items.nil?
-    "No items match that search"
+    where("name ILIKE ?", "%#{name}%").order(:name).first
   end
 end

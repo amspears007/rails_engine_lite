@@ -28,7 +28,7 @@ RSpec.describe Merchant, type: :model do
     it "::find_all_merchants_by_name" do
       expect(Merchant.find_all_merchants_by_name("am")).to eq([@merchant4, @merchant1])
       expect(Merchant.find_all_merchants_by_name("y")).to eq([@merchant1, @merchant3, @merchant5])
-      # expect(Merchant.find_all_merchants_by_name("chicken")).to eq("No merchants match that search")
+      expect(Merchant.find_all_merchants_by_name("chicken")).to eq([])
 
     end
   end
